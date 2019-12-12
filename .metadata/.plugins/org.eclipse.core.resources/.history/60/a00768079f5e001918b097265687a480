@@ -1,0 +1,227 @@
+package Lodgify;
+
+import java.awt.EventQueue;
+
+import javax.swing.*;
+import java.awt.*;
+
+import javax.swing.JFrame;
+
+import javax.swing.JLabel;
+
+import famdetails.famdetails;
+
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.awt.event.ActionEvent;
+
+public class Lodgify {
+
+	private JFrame Lodgify;
+	private JTextField txtlocation;
+	private JList listhotels; 
+	private JList listrooms;
+	int[] hotelid = new int[100];
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Lodgify window = new Lodgify();
+					window.Lodgify.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public Lodgify() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		Lodgify = new JFrame();
+		Lodgify.getContentPane().setBackground(Color.BLACK);
+		Lodgify.setBackground(Color.WHITE);
+		Lodgify.setBounds(100, 100, 799, 533);
+		Lodgify.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Lodgify.getContentPane().setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Raptor\\Desktop\\django\\btre_project\\static\\img\\logo1.jpg"));
+		lblNewLabel.setBounds(12, 13, 757, 157);
+		Lodgify.getContentPane().add(lblNewLabel);
+		
+		JSeparator separator = new JSeparator();
+		separator.setForeground(Color.WHITE);
+		separator.setBounds(22, 183, 739, 2);
+		Lodgify.getContentPane().add(separator);
+		
+		JLabel lblEnterLocation = new JLabel("Enter Location");
+		lblEnterLocation.setForeground(Color.WHITE);
+		lblEnterLocation.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblEnterLocation.setBounds(32, 198, 135, 38);
+		Lodgify.getContentPane().add(lblEnterLocation);
+		
+		txtlocation = new JTextField();
+		txtlocation.setBounds(222, 208, 376, 22);
+		Lodgify.getContentPane().add(txtlocation);
+		txtlocation.setColumns(10);
+		
+		JButton btnSearch = new JButton("SEARCH");
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int i = 0;
+					
+					Class.forName("oracle.jdbc.driver.OracleDriver");
+				    Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "System", "Nihar");	
+				    Statement stmt = con.createStatement();	
+				    ResultSet rs = stmt.executeQuery("select hotel_id,hotel_name from hotel where location = '"+txtlocation.getText()+"' ");
+				    DefaultListModel dlm = new DefaultListModel();
+				    while (rs.next())
+				    {
+				    	dlm.addElement(rs.getString(2));
+				    	hotelid[i] = rs.getInt(1);
+				    	i = i + 1;
+				    	
+				    }
+				    
+				   listhotels.setModel(dlm);
+				   
+				
+				    con.close();
+				}
+					catch (SQLException ex) {
+						
+				        System.out.println(ex);
+		
+				    }catch (ClassNotFoundException ex) {
+		
+				        System.out.println(ex);			
+				    }
+			}
+			
+		});
+		btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnSearch.setBounds(643, 206, 97, 25);
+		Lodgify.getContentPane().add(btnSearch);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(373, 433, 36, -23);
+		Lodgify.getContentPane().add(scrollPane);
+		
+		JList list = new JList();
+		list.setBackground(Color.LIGHT_GRAY);
+		list.setBounds(270, 458, 194, -115);
+		Lodgify.getContentPane().add(list);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(279, 341, -11, 117);
+		Lodgify.getContentPane().add(scrollPane_2);
+		
+		JScrollPane scrollPane_3 = new JScrollPane();
+		scrollPane_3.setBounds(462, 341, -168, 104);
+		Lodgify.getContentPane().add(scrollPane_3);
+		
+		JScrollPane scrollPane_7 = new JScrollPane();
+		scrollPane_7.setBounds(462, 356, -177, 38);
+		Lodgify.getContentPane().add(scrollPane_7);
+		
+		JScrollPane scrollPane_11 = new JScrollPane();
+		scrollPane_11.setBounds(306, 452, 2, -91);
+		Lodgify.getContentPane().add(scrollPane_11);
+		
+		JButton btnSelect = new JButton("SELECT");
+		btnSelect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					String hh = listhotels.getSelectedValue().toString();
+				    int ind = listhotels.getSelectedIndex();
+					
+					Class.forName("oracle.jdbc.driver.OracleDriver");
+				    Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "System", "Nihar");	
+				    Statement stmt = con.createStatement();	
+				    int a = hotelid[ind];
+				    ResultSet rs = stmt.executeQuery(" select count(room_no) as count,type from room where h_id ="+a+" and status='Vacant'  group by type");
+				    DefaultListModel dlm = new DefaultListModel();
+				    while(rs.next())
+				    {
+				    	 dlm.addElement("vacant:" + rs.getInt(1) + " " +"type:" + rs.getString(2));
+				    }
+				    
+				    
+				   listrooms.setModel(dlm);
+				   
+				
+				    con.close();
+				}
+					catch (SQLException ex) {
+						
+				        System.out.println(ex);
+		
+				    }catch (ClassNotFoundException ex) {
+		
+				        System.out.println(ex);			
+				    }
+
+				
+			}
+		
+		});
+		btnSelect.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnSelect.setBounds(253, 369, 97, 25);
+		Lodgify.getContentPane().add(btnSelect);
+		
+		JLabel lblHotelsNearYou = new JLabel("Hotels near you");
+		lblHotelsNearYou.setForeground(Color.WHITE);
+		lblHotelsNearYou.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblHotelsNearYou.setBounds(68, 249, 131, 16);
+		Lodgify.getContentPane().add(lblHotelsNearYou);
+		
+		listhotels = new JList();
+		listhotels.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		listhotels.setBounds(12, 278, 229, 195);
+		Lodgify.getContentPane().add(listhotels);
+		
+		JLabel lblRoom = new JLabel("Room");
+		lblRoom.setForeground(Color.WHITE);
+		lblRoom.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblRoom.setBounds(447, 249, 56, 16);
+		Lodgify.getContentPane().add(lblRoom);
+		
+		listrooms = new JList();
+		listrooms.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		listrooms.setBounds(383, 278, 176, 195);
+		Lodgify.getContentPane().add(listrooms);
+		
+		JButton btnSelect_1 = new JButton("SELECT");
+		btnSelect_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				famdetails info = new famdetails();
+				famdetails.main(null);
+				Lodgify.setVisible(false);
+			}
+		});
+		btnSelect_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnSelect_1.setBounds(593, 369, 97, 25);
+		Lodgify.getContentPane().add(btnSelect_1);
+		
+	
+	}
+}
+

@@ -1,0 +1,9 @@
+    create or replace procedure ratings_update(ho_id  ratings.h_id%type,fssn  ratings.f_ssn%type,c_rating  ratings.cust_rating%type) is
+                      avg_r ratings.cust_rating%type;
+                      begin
+                      insert into ratings values(ho_id,fssn,c_rating);
+                      select avg(cust_rating) into avg_r from ratings where h_id=ho_id group by h_id;
+                      update hotel set avg_rating=avg_r where hotel_id=ho_id;
+                      update hotel set tot_ratings=tot_ratings+1 where hotel_id=ho_id;
+               end;
+                       /

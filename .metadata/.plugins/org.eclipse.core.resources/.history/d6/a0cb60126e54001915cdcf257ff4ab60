@@ -1,0 +1,135 @@
+import java.sql.*;
+
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
+
+public class DBSMain {
+    
+	private JTextField ssn;
+	private JTextField full_name;
+	private JTextField address;
+	private JTextField phoneNo;
+	private JTextField no_of_adults;
+	private JTextField no_of_children;
+	
+	private JLabel essn;
+	private JLabel efull_name;
+	private JLabel eaddress;
+	private JLabel ephoneNo;
+	private JLabel eno_of_adults;
+	private JLabel eno_of_children;
+	
+	private JButton gethotels;
+	
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					new DBSMain();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public DBSMain() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		JFrame frame = new JFrame("DB Connection");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+    	Container con = getContentPane();
+    	Font font1 = new Font("Castellar", Font.BOLD,50);
+    	Font font2 = new Font("Edwardian Script ITC", Font.BOLD, 30);
+        
+        essn = new JLabel("Enter your ssn:");
+        efull_name = new JLabel("Enter your full name:");
+        eaddress = new JLabel("Enter your location:");
+        ephoneNo = new JLabel("Enter your contact:");
+        eno_of_adults = new JLabel("Enter family members(adults):");
+        eno_of_children = new JLabel("Enter no of children:");
+        
+        frame.add(essn);
+        frame.add(ssn);
+        frame.add(efull_name);
+        frame.add(full_name);
+        frame.add(eaddress);
+        frame.add(address);
+        frame.add(ephoneNo);
+        frame.add(phoneNo);
+        frame.add(eno_of_adults);
+        frame.add(no_of_adults);
+        frame.add(eno_of_children);
+        frame.add(no_of_children);
+        
+        
+        
+        
+        frame.setSize(400,400);  
+        frame.setLayout(null);  
+
+        frame.setVisible(true);  
+       	frame.setSize(300,300);
+      	
+        btnGetDetails.addActionListener(new ActionListener() {
+			    @Override
+			    public void actionPerformed(ActionEvent e) {
+			        try {
+			
+					        // step1 load the driver class			
+					        Class.forName("oracle.jdbc.driver.OracleDriver");			
+					        // step2 create the connection object			
+					        Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "System", "Nihar");			
+					        // step3 create the statement object			
+					        Statement stmt = con.createStatement();			
+					        // step4 execute query					        
+					        ResultSet rs = stmt.executeQuery("SELECT name FROM instructor");
+					        System.out.println("Connected");
+					        
+					        while (rs.next())
+					        {		
+					        	//lblDetails.setText(lblDetails.getText() + " " + rs.getInt(1) + "  " + rs.getString(2));
+					        	lblDetails.setText(lblDetails.getText() + " " + rs.getString(1));
+					        	frame.add(lblDetails);
+					        }
+					      
+					        // step5 close the connection object			
+					        con.close();			
+					    } 
+			        	catch (SQLException ex) {
+			
+					        System.out.println(ex);
+			
+					    }catch (ClassNotFoundException ex) {
+			
+					        System.out.println(ex);			
+					    }
+			    }
+			}
+        	
+        		 );	
+       
+		 
+	}
+
+}
+
+
+	
+
+

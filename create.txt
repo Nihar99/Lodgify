@@ -1,0 +1,113 @@
+drop table room;
+drop table members;
+drop table orders;
+drop table food;
+drop table facilitybooked;
+drop table ratings;
+drop table facility;
+drop table hotel;
+drop table family;
+
+
+
+create table family(
+family_head_ssn INT PRIMARY KEY,
+family_head_fullname VARCHAR(20),
+address VARCHAR(20),
+ph_no INT,
+no_of_adults INT,
+no_of_children INT);
+
+
+
+
+create table hotel(
+hotel_id INT PRIMARY KEY,
+location VARCHAR(20),
+hotel_name VARCHAR(20),
+avg_rating INT,
+tot_ratings INT);
+
+
+
+
+create table room(
+room_no INT,
+type VARCHAR(20),
+rate INT,
+status VARCHAR(20),
+f_ssn INT,
+h_id INT,
+PRIMARY KEY(room_no,h_id),
+FOREIGN KEY(h_id) references hotel(hotel_id)
+on delete cascade);
+
+
+
+
+
+create table facility(
+h_id INT,
+rate INT,
+facility_name VARCHAR(20),
+PRIMARY KEY(h_id,facility_name),
+FOREIGN KEY(h_id) REFERENCES hotel(hotel_id)
+on delete cascade);
+
+
+
+
+create table members(
+member_ssn INT,
+member_name VARCHAR(20),
+relation VARCHAR(20),
+age INT,
+gender char(1) NOT NULL,
+F_ssn INT,
+PRIMARY KEY(member_ssn,f_ssn),
+FOREIGN KEY(F_ssn) references family (family_head_ssn));
+
+
+
+
+
+create table food(f_id INT,
+rate INT,
+h_id INT,
+type VARCHAR(20),
+PRIMARY KEY (f_id,h_id),
+FOREIGN KEY (h_id) references hotel (hotel_id)
+on delete cascade);
+
+
+
+
+
+
+create table orders(food_id INT,
+f_ssn INT,
+quantity INT,
+PRIMARY KEY(food_id,f_ssn),
+FOREIGN KEY (f_ssn) REFERENCES family(family_head_ssn));
+
+
+
+
+
+create table ratings(
+h_id INT,
+f_ssn INT,
+cust_rating INT,
+PRIMARY KEY(h_id,f_ssn),
+FOREIGN KEY (h_id) references hotel (hotel_id) on delete cascade,
+FOREIGN KEY (f_ssn) REFERENCES family(family_head_ssn));
+
+create table facilitybooked( f_ssn int,fname varchar(20),h_id int ,primary key(f_ssn,fname,h_id), foreign key(f_ssn) references family on delete cascade,foreign key(h_id,fname) references facility on delete cascade);
+
+create table family_log
+(f_ssn int,
+ph_no int);
+
+create table hotel_log(
+hotel_id int,
+name varchar(20));

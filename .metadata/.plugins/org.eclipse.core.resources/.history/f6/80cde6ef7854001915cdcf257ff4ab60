@@ -1,0 +1,165 @@
+import java.sql.*;
+
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
+
+public class DBSMain {
+	
+
+    
+	private JTextField ssn;
+	private JTextField full_name;
+	private JTextField address;
+	private JTextField phoneNo;
+	private JTextField no_of_adults;
+	private JTextField no_of_children;
+	
+	private JLabel essn;
+	private JLabel efull_name;
+	private JLabel eaddress;
+	private JLabel ephoneNo;
+	private JLabel eno_of_adults;
+	private JLabel eno_of_children;
+	private JLabel hotels;
+	
+	private JButton gethotels;
+	
+
+	
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					new DBSMain();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public DBSMain() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		JFrame frame = new JFrame("DB Connection");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        gethotels = new JButton("Search");
+        
+        essn = new JLabel("Enter your ssn:");
+        efull_name = new JLabel("Enter your full name:");
+        eaddress = new JLabel("Enter your location:");
+        ephoneNo = new JLabel("Enter your contact:");
+        eno_of_adults = new JLabel("Enter family members(adults):");
+        eno_of_children = new JLabel("Enter no of children:");
+        hotels = new JLabel("hotels:");
+        
+        ssn = new JTextField(20);
+        full_name = new JTextField(20);
+        address = new JTextField(20);
+        phoneNo = new JTextField(20);
+        no_of_adults = new JTextField(20);
+        no_of_children = new JTextField(20);
+        
+        essn.setBounds(10,20,30,20);
+        efull_name.setBounds(10,20,30,20);
+        eaddress.setBounds(10,20,30,20);
+        ephoneNo.setBounds(10,20,30,20);
+        eno_of_adults.setBounds(10,20,30,20);
+        eno_of_children.setBounds(10,20,30,20);
+        
+        ssn.setBounds(20,50,200,30);
+        full_name.setBounds(20,50,200,30);
+        address.setBounds(20,50,200,30);
+        phoneNo.setBounds(20,50,200,30);
+        no_of_adults.setBounds(20,50,200,30);
+        no_of_children.setBounds(20,50,200,30);
+        
+        
+        frame.add(essn); frame.add(ssn);
+        
+        frame.add(efull_name);
+        frame.add(full_name);
+        frame.add(eaddress);
+        frame.add(address);
+        frame.add(ephoneNo);
+        frame.add(phoneNo);
+        frame.add(eno_of_adults);
+        frame.add(no_of_adults);
+        frame.add(eno_of_children);
+        frame.add(no_of_children);
+        
+        frame.add(gethotels);
+        
+        
+        
+        
+        frame.setSize(400,400);  
+        frame.setLayout(null);  
+
+        frame.setVisible(true);  
+       	frame.setSize(1500,1500);
+      	
+        gethotels.addActionListener(new ActionListener() {
+			    @Override
+			    public void actionPerformed(ActionEvent e) {
+			        try {
+			
+					        // step1 load the driver class			
+					        Class.forName("oracle.jdbc.driver.OracleDriver");			
+					        // step2 create the connection object			
+					        Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "System", "Nihar");			
+					        // step3 create the statement object			
+					        Statement stmt = con.createStatement();			
+					        // step4 execute query					        
+					        ResultSet rs = stmt.executeQuery("select * from hotel where location = 'address.getText()'");
+					        System.out.println("Connected");
+					        
+					        while (rs.next())
+					        {		
+					        	//lblDetails.setText(lblDetails.getText() + " " + rs.getInt(1) + "  " + rs.getString(2));
+					        	hotels.setText(hotels.getText() + " " + rs.getInt(1) + " "  + rs.getString(2) + " " + rs.getString(3) + " " 
+					        		+	rs.getInt(4) + " " + rs.getInt(5));
+					        	
+					        }
+					        frame.add(hotels);
+					      
+					        // step5 close the connection object			
+					        con.close();			
+					    } 
+			        	catch (SQLException ex) {
+			
+					        System.out.println(ex);
+			
+					    }catch (ClassNotFoundException ex) {
+			
+					        System.out.println(ex);			
+					    }
+			    }
+			}
+        	
+        		 );	
+       
+		 
+	}
+
+}
+
+
+	
+
+
