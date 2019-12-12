@@ -1,0 +1,84 @@
+create or replace procedure dept_count_proc(dname varchar ,dept_count out integer) is
+begin
+select count(*) into dept_count from instructor where instructor.dept_name = dept_count_proc.dname;
+end;
+/
+
+declare
+dept_count integer;
+begin
+dept_count_proc('Physics',dept_count);
+dbms_output.put_line(dept_count);
+end;
+/
+
+create or replace procedure hike(dept_name in varchar,budget in out
+integer) is
+cursor c is select budget from department where department.dept_name = hike.dept_name;
+begin
+for temp in c loop
+budget := temp.budget * 1.1;
+end loop;
+
+
+end;
+/
+
+create or replace function hiked(dname department.dept_name%TYPE) 
+return integer as
+budget integer;
+begin
+select budget into budget from department where department.dept_name = dname;
+dbms_output.put_line('Department Name:' || dname || ' ' || 'Original budget:' || budget);
+hike(dname,budget);
+return budget;
+end;
+/
+
+declare
+dept_name varchar(20) := 'Physics';
+hiked_budget integer;
+begin
+hiked_budget := hiked(dept_name);
+dbms_output.put_line('Hiked Budget:' || hiked_budget);
+end;
+/
+
+create or replace function course_popular()
+return course.title%type as
+begin
+cursor c is with temp(cid,title,course_id,deptname) as (select count(id),title,course_id,dept_name from takes natural join course group by course_id,dept_name,title) select title,deptname from temp where (cid,deptname) in (select max(cid),deptname from temp group by deptname);  
+
+end;
+/
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+create or replace trigger inst_trigger
+before delete on instructor
+for each row 
+begin
+insert into inst_delete values (:old.id,:old.name,:old.dept_name,:old.salary);
+end;
+/
+
+create or replace trigger view_trigg 
+instead of delete on myview1
+for each row
+begin
+insert into instructor_delete values (:old.id,:old.name,:old.dept_name,:old.salary);
+end;
+/
+
+
+
+
+
+
+
+
+
+
+
+
+
+

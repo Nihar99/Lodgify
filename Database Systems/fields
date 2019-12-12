@@ -1,0 +1,17 @@
+Order fields:
+First name
+last name
+mob no
+email
+address
+city
+pincode
+aadhar/pan
+all booking timings(dropdown : 9-12,12-3,3-6,6-9 AM/PM).
+
+	
+
+Food Package:
+Only one select ( Quantity).
+Utilities:
+Add : Many	

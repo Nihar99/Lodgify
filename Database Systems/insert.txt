@@ -1,0 +1,92 @@
+
+insert into hotel values(12,'Manipal','Country INN',0,0);
+
+insert into hotel values(25,'Udupi','Paradise Inn',0,0);
+
+insert into hotel values(14,'Manglore','Sunshine',0,0);
+
+insert into hotel values(45,'Mumbai','Taj',0,0);
+
+
+insert into room values(205,'Delux AC',2500,'Vacant',Null,12);
+insert into room values(305,'Delux AC',2500,'Vacant',Null,12);
+insert into room values(405,'Delux AC',2500,'Vacant',Null,12);
+insert into room values(105,'Delux AC',2500,'Vacant',Null,12);
+insert into room values(706,'Delux AC',2500,'Vacant',Null,12);
+
+insert into room values(215,'Suit AC',2500,'Vacant',Null,12);
+insert into room values(217,'Suit AC',2500,'Vacant',Null,12);
+insert into room values(806,'Suit AC',2500,'Vacant',Null,12);
+insert into room values(234,'Suit AC',2500,'Vacant',Null,12);
+
+insert into room values(205,'Delux AC',2500,'Vacant',Null,25);
+insert into room values(305,'Delux AC',2500,'Vacant',Null,25);
+insert into room values(405,'Delux AC',2500,'Vacant',Null,25);
+insert into room values(105,'Delux AC',2500,'Vacant',Null,25);
+insert into room values(706,'Delux AC',2500,'Vacant',Null,25);
+
+insert into room values(215,'Suit AC',2500,'Vacant',Null,25);
+insert into room values(217,'Suit AC',2500,'Vacant',Null,25);
+insert into room values(806,'Suit AC',2500,'Vacant',Null,25);
+insert into room values(234,'Suit AC',2500,'Vacant',Null,25);
+
+insert into room values(205,'Delux AC',2500,'Vacant',Null,14);
+insert into room values(305,'Delux AC',2500,'Vacant',Null,14);
+insert into room values(405,'Delux AC',2500,'Vacant',Null,14);
+insert into room values(105,'Delux AC',2500,'Vacant',Null,14);
+insert into room values(706,'Delux AC',2500,'Vacant',Null,14);
+
+insert into room values(215,'Suit AC',2500,'Vacant',Null,14);
+insert into room values(217,'Suit AC',2500,'Vacant',Null,14);
+insert into room values(806,'Suit AC',2500,'Vacant',Null,14);
+insert into room values(234,'Suit AC',2500,'Vacant',Null,14);
+
+insert into room values(205,'Delux AC',2500,'Vacant',Null,45);
+insert into room values(305,'Delux AC',2500,'Vacant',Null,45);
+insert into room values(405,'Delux AC',2500,'Vacant',Null,45);
+insert into room values(105,'Delux AC',2500,'Vacant',Null,45);
+insert into room values(706,'Delux AC',2500,'Vacant',Null,45);
+
+insert into room values(215,'Suit AC',2500,'Vacant',Null,45);
+insert into room values(217,'Suit AC',2500,'Vacant',Null,45);
+insert into room values(806,'Suit AC',2500,'Vacant',Null,45);
+insert into room values(234,'Suit AC',2500,'Vacant',Null,45);
+
+
+
+
+insert into facility values(12,1500,'Swimming pool');
+insert into facility values(12,2500,'Spa');
+insert into facility values(12,2000,'City Tour');
+
+insert into facility values(25,2500,'Ayurvedic massage');
+insert into facility values(25,2000,'Sight seeing');
+insert into facility values(25,1000,'Gym');
+
+
+insert into facility values(14,2500,'Gaming Cafe');
+insert into facility values(14,2000,'Spa');
+insert into facility values(14,1000,'Gym');
+
+
+insert into facility values(45,3500,'Adventure Sports');
+insert into facility values(45,2000,'Club House');
+insert into facility values(45,4000,'Barbeque');
+
+
+insert into food values(103,250,12,'Chicken Tikka'); 
+insert into food values(104,350,12,'Chicken Biryani'); 
+insert into food values(105,60,12,'Chocolate Icecream'); 
+
+insert into food values(204,230,14,'Fish Curry Rice');
+insert into food values(206,270,14,'Chicken Manchurian'); 
+insert into food values(205,60,14,'Choco Lava Cake'); 
+
+insert into food values(404,230,25,'Chicken Lollipop');
+insert into food values(406,265,25,'Chicken BBQ Pizza'); 
+insert into food values(405,90,25,'Chocolate Brownie'); 
+
+
+insert into food values(504,200,45,'Shahi Paneer');
+insert into food values(506,265,45,'Chilli Chicken'); 
+insert into food values(505,30,45,'Kachori'); 

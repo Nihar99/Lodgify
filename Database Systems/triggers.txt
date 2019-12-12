@@ -1,0 +1,16 @@
+create or replace trigger save_info
+after insert on family
+for each row
+begin
+insert into family_log values(:new.family_head_ssn,:new.ph_no);
+end;
+/
+
+
+create or replace trigger admin_trigger
+after delete on hotel
+for each row
+begin
+insert into hotel_log values(:old.hotel_id,:old.hotel_name);
+end;
+/

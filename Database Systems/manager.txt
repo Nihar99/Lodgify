@@ -1,0 +1,46 @@
+drop table person;
+drop table works;
+drop table company;
+drop table manages;
+create table person (name varchar(20) primary key,street varchar(20),city varchar(20));
+create table company (name varchar(20) primary key , city varchar(20));
+create table works (person_name varchar(20), foreign key(person_name) references person(name)
+		    on delete set null,
+                    company_name varchar(20),foreign key(company_name) references company(name)
+                    on delete cascade,
+		    salary integer,
+                    primary key(person_name,company_name) );
+create table manages (person_name varchar(20), foreign key(person_name) references person(name),
+		      manager_name varchar(20),
+		      primary key(person_name, manager_name) );
+
+insert into person values ('abc' , '123' , 'mumbai');
+insert into person values ('def' , '123' , 'mumbai');
+insert into person values ('ghi' , '456' , 'manipal');
+insert into person values ('xyz' , '456' , 'manipal');
+
+insert into company values ('3iology' , 'mumbai');
+insert into company values ('bajaj' , 'manipal');
+
+
+insert into works values ('abc' , '3iology' , 30000);
+insert into works values ('def' , '3iology' , 40000);
+insert into works values ('ghi' , 'bajaj' , 60000);
+insert into works values ('xyz' , 'bajaj' , 90000);
+
+insert into manages values ('abc' , 'def');
+insert into manages values ('ghi' , 'xyz');
+
+
+
+
+select p.name,p.street,p.city from person p,works w where w.company_name = '3iology' 
+and w.salary  > 10000 and p.name = w.person_name;
+
+select w.person_name from works w where w.salary > all (select salary from works
+where person_name = 'abc');
+
+select p.* from person p inner join works w on p.name = w.person_name
+and w.salary >= all (select salary from works);
+
+with temp(pname,mname,mstreet,mcity) as (select p.name,m.person_name,p.street,p.city from person p inner join manages m on p.name = m.person_name) select a.name,a.street,a.city from person a inner join temp t on a.name = t.mname and a.street = t.mstreet and a.city = t.mcity; 
